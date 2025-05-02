@@ -1,71 +1,55 @@
 import pandas as pd
 from flask import Flask, request, jsonify
-# Remove old VRP function imports if no longer needed
-# from functions import create_random_set , run_ga , initialize_population, run_differential_evolution
 from flask_cors import CORS
-
-# Import the function from your new NN script
-from hybrid_nn import run_de_ga_hybrid # Make sure hybrid_nn.py is in the same folder
+from hybrid_nn import run_de_ga_hybrid
+import traceback # Keep traceback for error logging
 
 app = Flask(__name__)
-# Make sure the origin matches your React app's address (likely localhost:5173 for Vite)
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}) # Adjust origin if needed
 
-# --- Old VRP Endpoints (Keep them if you still need them) ---
-@app.route("/generate-dataset")
-def generate_dataset():
-    # This endpoint likely needs to be removed or adapted if you don't need VRP data
-    # For now, we keep it but it's not used by the NN part.
-    try:
-        # Example: Generate dummy data or remove if unused
-        n_customers = request.args.get("customers", default=20, type=int)
-        # Replace create_random_set with appropriate logic or remove
-        # response = create_random_set(n_customers)
-        response = {"message": f"Dummy dataset endpoint called with {n_customers} customers. Adapt or remove."}
-        return jsonify(response), 200
-    except ValueError:
-        return jsonify({"error": "Invalid 'customers' parameter."}), 400
-    except NameError:
-         return jsonify({"error": "'create_random_set' not defined or imported."}), 500
+# --- (Keep other VRP endpoints if necessary) ---
 
-
-@app.route("/generate-vrp-ga", methods=["POST"])
-def generate_vrp_ga():
-    # Keep if needed, otherwise remove
-    return jsonify({"message": "VRP GA endpoint called. Adapt or remove."}), 200
-
-@app.route("/generate-vrp-de", methods=["POST"])
-def generate_vrp_de():
-     # Keep if needed, otherwise remove
-    return jsonify({"message": "VRP DE endpoint called. Adapt or remove."}), 200
-
-# --- New Endpoint for Hybrid Neural Network ---
+# --- Updated Endpoint for Hybrid Neural Network ---
 @app.route("/run-hybrid-nn", methods=["POST"])
 def run_hybrid_nn_endpoint():
     print("Received request for /run-hybrid-nn")
     data = request.json or {}
+    seed_value = None # Initialize seed as None
 
-    # Extract parameters from the request, providing defaults
     try:
-        NP = int(data.get("population_size", 50)) # Match React form name 'population_size'
-        GEN_DE = int(data.get("de_generations", 100)) # Suggest clear names in React form
-        F = float(data.get("f_factor", 0.8))       # Suggest 'f_factor' in React form
-        CR = float(data.get("cr_rate", 0.7))        # Suggest 'cr_rate' in React form
+        NP = int(data.get("population_size", 50))
+        GEN_DE = int(data.get("de_generations", 100))
+        F = float(data.get("f_factor", 0.8))
+        CR = float(data.get("cr_rate", 0.7))
         ga_generations = int(data.get("ga_generations", 50))
         mutation_rate = float(data.get("mutation_rate", 0.05))
         tournament_size = int(data.get("tournament_size", 3))
-        # Optional bounds (can be omitted if defaults in hybrid_nn.py are fine)
         L = float(data.get("lower_bound", -1.0))
         H = float(data.get("upper_bound", 1.0))
 
-        print(f"Parameters received: NP={NP}, GEN_DE={GEN_DE}, F={F}, CR={CR}, GA_GEN={ga_generations}, MutRate={mutation_rate}, TournSize={tournament_size}")
+        # --- Get and parse the seed ---
+        raw_seed = data.get("seed")
+        if raw_seed is not None and str(raw_seed).strip(): # Check if not None and not empty string
+            try:
+                 seed_value = int(raw_seed)
+                 print(f"Received seed value: {seed_value}")
+            except (ValueError, TypeError):
+                 print(f"Warning: Could not parse seed value '{raw_seed}'. Using random seed.")
+                 # Optionally return an error if seed must be valid
+                 # return jsonify({"error": f"Invalid seed value: {raw_seed}"}), 400
+        else:
+             print("No seed value provided. Using random seed.")
+        # --- End seed parsing ---
+
+
+        print(f"Parameters received: NP={NP}, GEN_DE={GEN_DE}, F={F}, CR={CR}, GA_GEN={ga_generations}, MutRate={mutation_rate}, TournSize={tournament_size}, Seed={seed_value}")
 
     except (ValueError, TypeError) as e:
         print(f"Error parsing parameters: {e}")
         return jsonify({"error": f"Invalid parameter type: {str(e)}"}), 400
 
     try:
-        # Call the main function from hybrid_nn.py
+        # Call the main function from hybrid_nn.py, passing the parsed seed
         results = run_de_ga_hybrid(
             NP=NP,
             GEN_DE=GEN_DE,
@@ -75,21 +59,16 @@ def run_hybrid_nn_endpoint():
             mutation_rate=mutation_rate,
             tournament_size=tournament_size,
             L=L,
-            H=H
+            H=H,
+            seed=seed_value # Pass the seed here
         )
         print("Hybrid DE-GA run completed successfully.")
-        # The results dictionary should already be JSON serializable
         return jsonify(results), 200
 
     except Exception as e:
-        # Catch potential errors during the NN training run
         print(f"Error during hybrid NN execution: {e}")
-        import traceback
-        traceback.print_exc() # Print detailed traceback to Flask console
+        traceback.print_exc()
         return jsonify({"error": f"An error occurred during execution: {str(e)}"}), 500
 
-
 if __name__ == "__main__":
-    # Set debug=False for production, True for development
-    # Use host='0.0.0.0' to make it accessible on your network if needed
-    app.run(debug=True, host='127.0.0.1', port=5000) # Keep port 5000 as React expects
+    app.run(debug=True, host='127.0.0.1', port=5000)

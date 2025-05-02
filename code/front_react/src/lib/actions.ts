@@ -78,7 +78,9 @@ export async function runHybridNN(prevState: any, formData: FormData) {
         mutation_rate,   // Key must match backend expectation
         tournament_size, // Key must match backend expectation
         lower_bound,     // Key must match backend expectation
-        upper_bound      // Key must match backend expectation
+        upper_bound,
+        seed      // Key must match backend expectation
+
       }),
     });
 
