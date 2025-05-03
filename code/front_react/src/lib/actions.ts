@@ -57,6 +57,7 @@ export async function runHybridNN(prevState: any, formData: FormData) {
   const tournament_size = formData.get("tournament_size");
   const lower_bound = formData.get("lower_bound"); // Optional
   const upper_bound = formData.get("upper_bound"); // Optional
+  const seed = formData.get("seed");
 
 
   console.log("Sending parameters to backend:", { // Log what's being sent
