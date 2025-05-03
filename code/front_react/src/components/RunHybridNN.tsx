@@ -12,7 +12,6 @@ export default function RunHybridNN({
   pending: boolean;
   title: string;
 }) {
-  // State variables for DE-GA Hybrid parameters
   const [population_size, setPopulation_size] = useState(50);
   const [de_generations, setDe_generations] = useState(100);
   const [f_factor, setF_factor] = useState(0.8);
@@ -22,7 +21,9 @@ export default function RunHybridNN({
   const [tournament_size, setTournament_size] = useState(3);
   const [lower_bound, setLower_bound] = useState(-1.0);
   const [upper_bound, setUpper_bound] = useState(1.0);
-  const [seed, setSeed] = useState<string>(""); // Add state for seed (string to allow empty)
+  const [seed, setSeed] = useState<string>("");
+  const [extinction_percentage, setExtinction_percentage] = useState(0.0); // New
+  const [extinction_generation, setExtinction_generation] = useState(0); // New
 
 
   return (
@@ -30,8 +31,6 @@ export default function RunHybridNN({
       action={action}
       className="flex flex-col w-full max-w-sm gap-3 items-center p-2"
     >
-      {/* DE Parameters */}
-      {/* ... (keep existing DE parameters inputs) ... */}
       <h3 className="text-lg font-semibold mt-2">DE Parameters</h3>
       <div className="w-full">
         <Label htmlFor="population_size">Population Size (NP)</Label>
@@ -50,8 +49,6 @@ export default function RunHybridNN({
         <Input type="number" onChange={(e) => setCr_rate(parseFloat(e.target.value))} name="cr_rate" id="cr_rate" placeholder="e.g., 0.7" value={cr_rate} min={0.0} step={0.1} max={1.0}/>
       </div>
 
-       {/* GA Parameters */}
-       {/* ... (keep existing GA parameters inputs) ... */}
        <h3 className="text-lg font-semibold mt-4">GA Parameters</h3>
        <div className="w-full">
         <Label htmlFor="ga_generations">GA Generations</Label>
@@ -66,10 +63,7 @@ export default function RunHybridNN({
         <Input type="number" onChange={(e) => setTournament_size(parseInt(e.target.value))} name="tournament_size" id="tournament_size" placeholder="e.g., 3" value={tournament_size} min={2}/>
       </div>
 
-
-      {/* Optional Bounds */}
-      {/* ... (keep existing bounds inputs) ... */}
-      <h3 className="text-lg font-semibold mt-4">Optional Bounds & Seed</h3>
+      <h3 className="text-lg font-semibold mt-4">Optional Bounds, Seed & Extinction</h3>
        <div className="w-full">
         <Label htmlFor="lower_bound">Lower Bound (L)</Label>
         <Input type="number" onChange={(e) => setLower_bound(parseFloat(e.target.value))} name="lower_bound" id="lower_bound" placeholder="e.g., -1.0" value={lower_bound} step={0.1}/>
@@ -78,23 +72,21 @@ export default function RunHybridNN({
         <Label htmlFor="upper_bound">Upper Bound (H)</Label>
         <Input type="number" onChange={(e) => setUpper_bound(parseFloat(e.target.value))} name="upper_bound" id="upper_bound" placeholder="e.g., 1.0" value={upper_bound} step={0.1}/>
       </div>
-
-      {/* --- Add Seed Input --- */}
       <div className="w-full">
         <Label htmlFor="seed">Random Seed (Optional)</Label>
-        <Input
-          type="number" // Use number, but handle empty string in action/backend
-          onChange={(e) => setSeed(e.target.value)} // Update string state
-          name="seed" // Matches backend key
-          id="seed"
-          placeholder="Leave empty for random"
-          value={seed}
-          min={0} // Seeds are typically non-negative integers
-          step={1}
-        />
+        <Input type="number" onChange={(e) => setSeed(e.target.value)} name="seed" id="seed" placeholder="Leave empty for random" value={seed} min={0} step={1} />
       </div>
-      {/* --- End Seed Input --- */}
 
+      {/* --- Add Extinction Inputs --- */}
+      <div className="w-full">
+        <Label htmlFor="extinction_percentage">DE Extinction % (0.0-1.0, 0=off)</Label>
+        <Input type="number" onChange={(e) => setExtinction_percentage(parseFloat(e.target.value))} name="extinction_percentage" id="extinction_percentage" placeholder="e.g., 0.1 for 10%" value={extinction_percentage} min={0.0} max={1.0} step={0.05} />
+      </div>
+      <div className="w-full">
+        <Label htmlFor="extinction_generation">DE Extinction Interval (Generations, 0=off)</Label>
+        <Input type="number" onChange={(e) => setExtinction_generation(parseInt(e.target.value))} name="extinction_generation" id="extinction_generation" placeholder="e.g., 100" value={extinction_generation} min={0} step={10} />
+      </div>
+      {/* --- End Extinction Inputs --- */}
 
       <Button disabled={pending} type="submit" className="mt-4">
         {pending ? "Running..." : `Run ${title}`}

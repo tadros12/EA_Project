@@ -1,53 +1,4 @@
-// Potentially other imports if needed
-
-export async function generateDataset(prevState: any, formData: FormData) {
-  // ... your original code for generateDataset ...
-  const n_customers = formData.get("n_customers");
-  try {
-      const data = await fetch(`http://127.0.0.1:5000/generate-dataset?customers=${n_customers}`);
-      if (!data.ok) throw new Error(`HTTP error! Status: ${data.status}`);
-      return await data.json();
-  } catch (error) {
-      console.error("Error generating dataset:", error);
-      return { error: error instanceof Error ? error.message : "Failed to generate dataset" };
-  }
-}
-
-export async function runGeneticAlgorithm(prevState: any, formData: FormData) {
-  // ... your original code for runGeneticAlgorithm ...
-  const population_size = formData.get("population_size");
-  const generations = formData.get("generations");
-  const mutation_rate = formData.get("mutation_rate");
-  const retain_rate = formData.get("retain_rate");
-  try {
-      const response = await fetch("http://127.0.0.1:5000/generate-vrp-ga", { /* ... options ... */ });
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      return await response.json();
-  } catch (error) {
-      console.error("Error running GA:", error);
-      return { error: error instanceof Error ? error.message : "Failed to run GA" };
-  }
-}
-
-export async function runDifferentialEvolution(prevState: any, formData: FormData) {
-  // ... your original code for runDifferentialEvolution ...
-   const population_size = formData.get("population_size");
-   const generations = formData.get("generations");
-   const F = formData.get("F");
-   const CR = formData.get("CR");
-   try {
-       const response = await fetch("http://127.0.0.1:5000/generate-vrp-de", { /* ... options ... */ });
-       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-       return await response.json();
-   } catch (error) {
-       console.error("Error running DE:", error);
-       return { error: error instanceof Error ? error.message : "Failed to run DE" };
-   }
-}
-
-// Add the new function, also with 'export'
-export async function runHybridNN(prevState: any, formData: FormData) {
-  // Extract parameters - ensure names match the form's 'name' attributes
+export async function runDeGaHybrid(prevState: any, formData: FormData) {
   const population_size = formData.get("population_size");
   const de_generations = formData.get("de_generations");
   const f_factor = formData.get("f_factor");
@@ -55,58 +6,89 @@ export async function runHybridNN(prevState: any, formData: FormData) {
   const ga_generations = formData.get("ga_generations");
   const mutation_rate = formData.get("mutation_rate");
   const tournament_size = formData.get("tournament_size");
-  const lower_bound = formData.get("lower_bound"); // Optional
-  const upper_bound = formData.get("upper_bound"); // Optional
+  const lower_bound = formData.get("lower_bound");
+  const upper_bound = formData.get("upper_bound");
   const seed = formData.get("seed");
+  const extinction_percentage = formData.get("extinction_percentage"); // New
+  const extinction_generation = formData.get("extinction_generation"); // New
 
-
-  console.log("Sending parameters to backend:", { // Log what's being sent
-      population_size, de_generations, f_factor, cr_rate, ga_generations, mutation_rate, tournament_size, lower_bound, upper_bound
-  });
+  const payload = {
+      population_size, de_generations, f_factor, cr_rate, ga_generations, mutation_rate, tournament_size, lower_bound, upper_bound, seed, extinction_percentage, extinction_generation // Include new params
+  };
+  console.log("Sending DE-GA parameters to backend:", payload);
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/run-hybrid-nn", { // New endpoint URL
+    const response = await fetch("http://127.0.0.1:5000/run-hybrid-de-ga", { // Updated endpoint
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        population_size, // Key must match backend expectation
-        de_generations,  // Key must match backend expectation
-        f_factor,        // Key must match backend expectation
-        cr_rate,         // Key must match backend expectation
-        ga_generations,  // Key must match backend expectation
-        mutation_rate,   // Key must match backend expectation
-        tournament_size, // Key must match backend expectation
-        lower_bound,     // Key must match backend expectation
-        upper_bound,
-        seed      // Key must match backend expectation
-
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
-      // Try to parse error message from backend if available
       let errorData;
-      try {
-          errorData = await response.json();
-      } catch (parseError) {
-          // If parsing fails, use the status text
-          throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
-      }
+      try { errorData = await response.json(); }
+      catch (parseError) { throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`); }
       console.error("Backend error response:", errorData);
-      throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
+      throw new Error(errorData?.error || `HTTP error! Status: ${response.status}`);
     }
 
     const results = await response.json();
-    console.log("Received results from backend:", results); // Log successful results
-    return results; // Return the JSON containing history arrays etc.
+    console.log("Received DE-GA results from backend:", results);
+    return results;
 
   } catch (error) {
-    console.error("Error fetching hybrid NN data:", error);
-    // Return an object with an error field, compatible with useActionState
-    return {
-      error: error instanceof Error ? error.message : "Failed to fetch hybrid NN data"
-    };
+    console.error("Error caught in runDeGaHybrid action:", error);
+    let errorMessage = "An unknown error occurred during the DE-GA operation.";
+    if (error instanceof Error) { errorMessage = error.message; }
+    else if (typeof error === 'string') { errorMessage = error; }
+    return { error: errorMessage };
+  }
+}
+
+
+export async function runGaDeHybrid(prevState: any, formData: FormData) {
+  const population_size = formData.get("population_size");
+  const de_generations = formData.get("de_generations");
+  const f_factor = formData.get("f_factor");
+  const cr_rate = formData.get("cr_rate");
+  const ga_generations = formData.get("ga_generations");
+  const mutation_rate = formData.get("mutation_rate");
+  const tournament_size = formData.get("tournament_size");
+  const lower_bound = formData.get("lower_bound");
+  const upper_bound = formData.get("upper_bound");
+  const seed = formData.get("seed");
+  const extinction_percentage = formData.get("extinction_percentage"); // New
+  const extinction_generation = formData.get("extinction_generation"); // New
+
+  const payload = {
+      population_size, de_generations, f_factor, cr_rate, ga_generations, mutation_rate, tournament_size, lower_bound, upper_bound, seed, extinction_percentage, extinction_generation // Include new params
+  };
+  console.log("Sending GA-DE parameters to backend:", payload);
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/run-hybrid-ga-de", { // New endpoint
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      let errorData;
+      try { errorData = await response.json(); }
+      catch (parseError) { throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`); }
+      console.error("Backend error response:", errorData);
+      throw new Error(errorData?.error || `HTTP error! Status: ${response.status}`);
+    }
+
+    const results = await response.json();
+    console.log("Received GA-DE results from backend:", results);
+    return results;
+
+  } catch (error) {
+    console.error("Error caught in runGaDeHybrid action:", error);
+    let errorMessage = "An unknown error occurred during the GA-DE operation.";
+    if (error instanceof Error) { errorMessage = error.message; }
+    else if (typeof error === 'string') { errorMessage = error; }
+    return { error: errorMessage };
   }
 }

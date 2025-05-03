@@ -1,139 +1,108 @@
-// --- Imports ---
-import { Badge } from "./ui/badge";
-// import ScatterChart from "./ScatterChart"; // Remove this import
-import LineChart from "./LineChart";
-// import GenerationsTable from "./generationsTable"; // Already removed
-// import RunGA from "./runGA"; // Remove this import
-// import RunDE from "./runDE"; // Remove this import
-import RunHybridNN from "./RunHybridNN"; // Import the new form
-import { ScrollArea } from "./ui/scroll-area";
-import { useActionState } from "react"; // Assuming you use useActionState
-import { runHybridNN } from "@/lib/actions"; // Import the new action
+import LineChart from "@/components/LineChart";
 
-// --- Define the expected message type from the new backend ---
-interface HybridNNMessage {
-  de_history: number[];
-  ga_history: number[];
-  de_generations_count: number;
-  ga_generations_count: number; // Optional, but good to have
-  final_loss?: number; // Optional
-  test_accuracy?: number; // Optional
-  error?: string; // To handle potential errors from the action
-  // best_solution_weights is likely too large to display directly
-}
+type ResultState = {
+  algorithm_run?: 'DE-GA' | 'GA-DE';
+  de_history?: number[];
+  ga_history?: number[];
+  final_loss?: number;
+  final_accuracy?: number;
+  de_generations_count?: number;
+  ga_generations_count?: number;
+  error?: string;
+};
 
-// --- Component Definition ---
-// Removed DSmessage, DSisPending props as they related to the VRP dataset generation
 export default function AlgorithmComponent({
-  // GAmessageSt, // Rename state variable below
-  // GAisPending, // Rename state variable below
-  // GAformAction, // Replace with new action
-  headerTitle, // Keep or update as needed
+  state,
+  elapsed,
 }: {
-  headerTitle: string; // Example: "Hybrid DE-GA Neural Network Training"
+  state: ResultState | null;
+  elapsed?: number | null;
 }) {
-  // --- State Management for the new action ---
-  // Use useActionState (React 19+) or useState/useEffect with manual fetch
-  // This example uses useActionState
-  const [hybridNNState, hybridNNFormAction, isHybridNNPending] = useActionState<HybridNNMessage | null, FormData>(
-    runHybridNN, // Use the new action function
-    null // Initial state
-  );
+  if (!state) {
+    return <div className="text-center text-muted-foreground">Run an algorithm to see results.</div>;
+  }
 
-  // Determine if loading indicator should show
-  const showLoader = isHybridNNPending;
+  if (state.error) {
+    return <div className="text-destructive text-center p-4">Error: {state.error}</div>;
+  }
 
-  // Extract data for display (handle potential null state and errors)
-  const finalLoss = hybridNNState?.final_loss?.toFixed(6); // Display more precision for loss
-  const testAccuracy = hybridNNState?.test_accuracy
-    ? (hybridNNState.test_accuracy * 100).toFixed(2) + "%"
-    : null; // Optional accuracy display
-
-  // Extract data for the LineChart
-  const deHistory = hybridNNState?.de_history;
-  const gaHistory = hybridNNState?.ga_history;
-  const deGenCount = hybridNNState?.de_generations_count;
-
-  // Handle potential errors from the backend action
-  const errorMessage = hybridNNState?.error;
+  // Helper to format ms as s or m:s
+  const formatElapsed = (ms?: number | null) => {
+    if (!ms || ms < 0) return null;
+    if (ms < 1000) return `${ms} ms`;
+    if (ms < 60000) return `${(ms / 1000).toFixed(2)} s`;
+    const min = Math.floor(ms / 60000);
+    const sec = ((ms % 60000) / 1000).toFixed(2);
+    return `${min}m ${sec}s`;
+  };
 
   return (
-    <>
-      {/* Central Content Area */}
-      <ScrollArea className="p-2 w-2/3 max-w-full relative">
-        <h1 className="text-3xl font-bold mb-2 text-center">{headerTitle}</h1>
+    <div className="flex flex-col items-center p-4 gap-4 w-full">
+      <h2 className="text-xl font-semibold">Results ({state.algorithm_run})</h2>
 
-        {/* Loading Indicator */}
-        {showLoader && (
-          <div className=" absolute h-full w-full flex justify-center items-center bg-transparent backdrop-blur-sm z-10">
-            {/* Consider a simpler loader if the cat is too much */}
-            <img
-              className="bg-transparent w-48 h-48 rounded-3xl" // Slightly smaller
-              src="/spinning-cat.gif" // Make sure this GIF is in your public folder
-              alt="Loading..."
-            />
-            {/* Maybe remove the audio or make it controllable */}
-            {/* <audio src="/Crambone.mp3" preload="auto" autoPlay loop hidden /> */}
+      <div className="flex justify-around w-full max-w-md text-center">
+          <div>
+              <p className="text-muted-foreground text-sm">Final Loss</p>
+              <p className="text-lg font-bold">{state.final_loss?.toFixed(6) ?? 'N/A'}</p>
           </div>
-        )}
-
-        {/* Display Error Message */}
-        {errorMessage && !showLoader && (
-          <div className="w-full my-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
-            <p>Error: {errorMessage}</p>
+          <div>
+              <p className="text-muted-foreground text-sm">Final Accuracy</p>
+              <p className="text-lg font-bold">{(state.final_accuracy != null ? state.final_accuracy * 100 : NaN).toFixed(2) ?? 'N/A'}%</p>
           </div>
-        )}
-
-
-        {/* Result Badges */}
-        {(finalLoss || testAccuracy) && !showLoader && !errorMessage && (
-          <div className="w-full flex flex-wrap justify-center gap-4 my-3">
-            {finalLoss && (
-              <Badge
-                variant="outline"
-                className="text-xl p-2 hover:bg-accent transition-colors"
-              >
-                Final Loss: {finalLoss}
-              </Badge>
-            )}
-             {testAccuracy && (
-              <Badge
-                variant="outline"
-                className="text-xl p-2 hover:bg-accent transition-colors"
-              >
-                Test Accuracy: {testAccuracy}
-              </Badge>
-            )}
-          </div>
-        )}
-
-        {/* Customer Locations Scatter Chart - REMOVED */}
-        {/* {DSmessage && !DSisPending && !GAisPending && ( ... )} */}
-
-        {/* Performance Line Chart - Updated Props */}
-        {/* Only render chart if history data exists */}
-        {deHistory && gaHistory && deGenCount && !showLoader && !errorMessage && (
-          <LineChart
-            // Pass the history arrays and DE generation count
-            de_history={deHistory}
-            ga_history={gaHistory}
-            de_generations_count={deGenCount}
-          />
-        )}
-      </ScrollArea>
-
-      {/* Right Sidebar - Hybrid NN Controls */}
-      <div className="w-1/3 p-2 flex flex-col justify-between">
-        {/* Generations Table - REMOVED */}
-        {/* <GenerationsTable generationsRes={GAmessageSt} /> */}
-
-        {/* Use the new RunHybridNN form */}
-        <RunHybridNN
-          action={hybridNNFormAction} // Pass the action dispatcher
-          pending={isHybridNNPending}  // Pass the pending state
-          title={"Hybrid DE-GA"}    // Updated title for the button
-        />
       </div>
-    </>
+
+      {elapsed != null && (
+        <div className="mt-2 mb-2">
+          <span className="font-semibold text-blue-500">
+            ⏱️ Elapsed Time:&nbsp;
+          </span>
+          <span>{formatElapsed(elapsed)}</span>
+        </div>
+      )}
+
+      {/* Plot only if there's data */}
+      {(state.de_history && state.de_history.length > 0) || (state.ga_history && state.ga_history.length > 0) ? (
+        <div className="w-full max-w-3xl">
+          <LineChart
+            de_history={state.de_history}
+            ga_history={state.ga_history}
+            de_generations_count={state.de_generations_count}
+          />
+        </div>
+      ) : null}
+
+      <div className="flex flex-col md:flex-row justify-around w-full max-w-3xl gap-4 mt-4">
+        {/* DE History Box (always rendered) */}
+        <div className="flex-1">
+          <h3 className="text-lg font-medium mb-2 text-center">DE History (Loss)</h3>
+          <div className="h-48 overflow-y-auto border rounded p-2 bg-muted/50 text-sm">
+            {Array.isArray(state.de_history) && state.de_history.length > 0 ? (
+              <ul>
+                {state.de_history.map((loss, index) => (
+                  <li key={`de-${index}`}>Gen {index + 1}: {loss.toFixed(6)}</li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-center text-muted-foreground">No DE History</div>
+            )}
+          </div>
+        </div>
+        {/* GA History Box (always rendered) */}
+        <div className="flex-1">
+          <h3 className="text-lg font-medium mb-2 text-center">GA History (Loss)</h3>
+          <div className="h-48 overflow-y-auto border rounded p-2 bg-muted/50 text-sm">
+            {Array.isArray(state.ga_history) && state.ga_history.length > 0 ? (
+              <ul>
+                {state.ga_history.map((loss, index) => (
+                  <li key={`ga-${index}`}>Gen {index + 1}: {loss.toFixed(6)}</li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-center text-muted-foreground">No GA History</div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
