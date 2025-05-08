@@ -120,19 +120,19 @@ def extinction(population_variable, extinction_percentage, NP, D, fitness_func, 
     num_new = NP - num_survivors
     print(f"  Extinction Event: Keeping {num_survivors} best, replacing {num_new} individuals.")
 
-    current_fitness_scores = [fitness_func(ind, x_train, y_train) for ind in population_variable]
-    current_fitness_scores_np = np.array([f.numpy() for f in current_fitness_scores])
-
-    survivor_indices = tf.argsort(current_fitness_scores_np)[:num_survivors]
+    # On-the-fly fitness without storing persistent lists
+    fitness_values = []
+    for ind in population_variable:
+        fitness_values.append(float(fitness_func(ind, x_train, y_train).numpy()))
+    fitness_values = np.array(fitness_values)
+    survivor_indices = tf.argsort(fitness_values)[:num_survivors]
 
     survivors = tf.gather(population_variable, survivor_indices)
-
     new_individuals = initialize_population(population_size=num_new, D=D)
-
     new_population_tensor = tf.concat([survivors, new_individuals], axis=0)
-
     new_population_tensor = tf.random.shuffle(new_population_tensor)
-
+    del survivors, new_individuals, fitness_values
+    gc.collect()
     return new_population_tensor
 
 
@@ -144,11 +144,11 @@ def evolve(population_variable, GEN, NP, D, F, CR, x_train, y_train, fitness_fun
     else:
          print("  Extinction disabled.")
 
-    fitness_scores = [f.numpy() for f in [fitness_func(ind, x_train, y_train) for ind in population_variable]]
+    # fitness_scores are used only for current generation, not kept for long
+    fitness_scores = [float(fitness_func(ind, x_train, y_train).numpy()) for ind in population_variable]
     best_idx = np.argmin(fitness_scores)
     best_solution = tf.identity(population_variable[best_idx])
     best_fitness = fitness_scores[best_idx]
-
     fitness_history = [best_fitness]
 
     for g in range(GEN):
@@ -157,8 +157,7 @@ def evolve(population_variable, GEN, NP, D, F, CR, x_train, y_train, fitness_fun
             mutant_vector = mutate(v1, v2, v3, F, D, L, H)
             target_vector = population_variable[j]
             trial_vector = crossover(target_vector, mutant_vector, CR, D)
-            trial_fitness_tensor = fitness_func(trial_vector, x_train, y_train)
-            trial_fitness = trial_fitness_tensor.numpy()
+            trial_fitness = float(fitness_func(trial_vector, x_train, y_train).numpy())
             target_fitness = fitness_scores[j]
 
             if trial_fitness < target_fitness:
@@ -179,9 +178,7 @@ def evolve(population_variable, GEN, NP, D, F, CR, x_train, y_train, fitness_fun
                 population_variable, extinction_percentage, NP, D, fitness_func, x_train, y_train
             )
             population_variable.assign(new_population_tensor)
-
-            print("  Recalculating fitness scores after extinction...")
-            fitness_scores = [f.numpy() for f in [fitness_func(ind, x_train, y_train) for ind in population_variable]]
+            fitness_scores = [float(fitness_func(ind, x_train, y_train).numpy()) for ind in population_variable]
             best_idx = np.argmin(fitness_scores)
             best_fitness = fitness_scores[best_idx]
             best_solution = tf.identity(population_variable[best_idx])
@@ -234,7 +231,7 @@ def genetic_algorithm(initial_population_variable, x_train, y_train, fitness_fun
     print(f"Starting GA: Generations={generations}, Population Size={population_size}, Mutation Rate={mutation_rate}")
     population = [tf.Variable(ind) for ind in initial_population_variable]
 
-    fitness_scores = [fitness_func(ind, x_train, y_train).numpy() for ind in population] # Store as floats
+    fitness_scores = [float(fitness_func(ind, x_train, y_train).numpy()) for ind in population]
     best_idx = np.argmin(fitness_scores)
     best_weights = tf.identity(population[best_idx])
     best_fitness = fitness_scores[best_idx]
@@ -246,7 +243,7 @@ def genetic_algorithm(initial_population_variable, x_train, y_train, fitness_fun
         elite_idx = np.argmin(fitness_scores)
         new_population_list.append(tf.identity(population[elite_idx]))
 
-        current_pop_size = len(population) # Use length of list for loop
+        current_pop_size = len(population)
 
         for _ in range(current_pop_size - 1):
             parent1_idx = tournament_selection(population, fitness_scores, tournament_size)
@@ -265,7 +262,7 @@ def genetic_algorithm(initial_population_variable, x_train, y_train, fitness_fun
             new_population_list.append(tf.Variable(child))
 
         population = new_population_list
-        fitness_scores = [fitness_func(ind, x_train, y_train).numpy() for ind in population] # Recalculate as floats
+        fitness_scores = [float(fitness_func(ind, x_train, y_train).numpy()) for ind in population]
         current_best_idx = np.argmin(fitness_scores)
         current_best_fitness = fitness_scores[current_best_idx]
 
@@ -369,25 +366,22 @@ def run_ga_de_hybrid(NP=50, GEN_DE=100, F=0.8, CR=0.7, ga_generations=50, mutati
 
     x_train, y_train_hot, x_test, y_test_hot = load_and_prepare_data()
     initial_population = initialize_population(population_size=NP, D=D)
-    population_ga_var_list = [tf.Variable(ind) for ind in initial_population] # GA expects list of vars
-    print("Initial population shape:", initial_population.shape) # Shape of original tensor
+    population_ga_var_list = [tf.Variable(ind) for ind in initial_population]
+    print("Initial population shape:", initial_population.shape)
 
     print("--- Starting GA phase ---")
     best_ga_solution_tensor, ga_history, final_ga_population_vars_list = genetic_algorithm(
-        population_ga_var_list, # Pass list of vars
+        population_ga_var_list,
         x_train, y_train_hot, fitness,
         generations=ga_generations, mutation_rate=mutation_rate, tournament_size=tournament_size
     )
 
     print("--- GA phase complete, starting DE phase ---")
-    # Convert final GA population (list of vars) back to a single Variable for DE
     try:
          population_de_var = tf.Variable(tf.stack(final_ga_population_vars_list))
     except Exception as e:
          print(f"Error stacking GA population for DE: {e}. Using initial population for DE.")
-         # Fallback if stacking fails (e.g., empty list)
          population_de_var = tf.Variable(initialize_population(population_size=NP, D=D))
-
 
     best_de_solution_tensor, de_history, final_de_population_var = evolve(
         population_de_var, GEN_DE, NP, D, F, CR, x_train, y_train_hot, fitness, L, H,
