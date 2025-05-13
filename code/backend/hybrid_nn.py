@@ -4,7 +4,7 @@ from tensorflow import keras
 import gc
 
 INPUT_SIZE = 784
-HIDDEN_SIZE = 128
+HIDDEN_SIZE = 32
 OUTPUT_SIZE = 10
 W1_SIZE = INPUT_SIZE * HIDDEN_SIZE
 B1_SIZE = HIDDEN_SIZE
@@ -27,7 +27,7 @@ def load_and_prepare_data():
 
 
 def sigmoid(x):
-    return tf.nn.sigmoid(x)
+    return tf.nn.relu(x)
 
 
 def softmax(x):
@@ -53,17 +53,23 @@ def forward_pass(X, vector):
     return output
 
 
-def fitness(vector, X, y_true, batch_size=1000):
-    if not isinstance(X, tf.Tensor):
-        X = tf.convert_to_tensor(X, dtype=tf.float32)
-    if not isinstance(y_true, tf.Tensor):
-        y_true = tf.convert_to_tensor(y_true, dtype=tf.float32)
-    indices = tf.random.shuffle(tf.range(tf.shape(X)[0]))[:batch_size]
-    X_batch = tf.gather(X, indices)
-    y_batch = tf.gather(y_true, indices)
-    y_pred = forward_pass(X_batch, vector)
-    loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
+
+def fitness(vector, X, y_true):
+    y_pred = forward_pass(X, vector)
+    loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred)
     return tf.reduce_mean(loss)
+
+# def fitness(vector, X, y_true, batch_size=1000):
+#     if not isinstance(X, tf.Tensor):
+#         X = tf.convert_to_tensor(X, dtype=tf.float32)
+#     if not isinstance(y_true, tf.Tensor):
+#         y_true = tf.convert_to_tensor(y_true, dtype=tf.float32)
+#     indices = tf.random.shuffle(tf.range(tf.shape(X)[0]))[:batch_size]
+#     X_batch = tf.gather(X, indices)
+#     y_batch = tf.gather(y_true, indices)
+#     y_pred = forward_pass(X_batch, vector)
+#     loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
+#     return tf.reduce_mean(loss)
 
 
 def initialize_population(population_size, D, input_dim=INPUT_SIZE, output_dim=OUTPUT_SIZE):
