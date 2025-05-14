@@ -1,4 +1,10 @@
-import LineChart from "@/components/LineChart";
+import LineChart from "../components/LineChart";
+
+type TestSample = {
+  image_b64: string;
+  true_label: number | string;
+  prediction: number | string;
+};
 
 type ResultState = {
   algorithm_run?: 'DE-GA' | 'GA-DE';
@@ -9,6 +15,7 @@ type ResultState = {
   de_generations_count?: number;
   ga_generations_count?: number;
   error?: string;
+  test_samples?: TestSample[];
 };
 
 export default function AlgorithmComponent({
@@ -26,7 +33,6 @@ export default function AlgorithmComponent({
     return <div className="text-destructive text-center p-4">Error: {state.error}</div>;
   }
 
-  // Helper to format ms as s or m:s
   const formatElapsed = (ms?: number | null) => {
     if (!ms || ms < 0) return null;
     if (ms < 1000) return `${ms} ms`;
@@ -41,14 +47,16 @@ export default function AlgorithmComponent({
       <h2 className="text-xl font-semibold">Results ({state.algorithm_run})</h2>
 
       <div className="flex justify-around w-full max-w-md text-center">
-          <div>
-              <p className="text-muted-foreground text-sm">Final Loss</p>
-              <p className="text-lg font-bold">{state.final_loss?.toFixed(6) ?? 'N/A'}</p>
-          </div>
-          <div>
-              <p className="text-muted-foreground text-sm">Final Accuracy</p>
-              <p className="text-lg font-bold">{(state.final_accuracy != null ? state.final_accuracy * 100 : NaN).toFixed(2) ?? 'N/A'}%</p>
-          </div>
+        <div>
+          <p className="text-muted-foreground text-sm">Final Loss</p>
+          <p className="text-lg font-bold">{state.final_loss?.toFixed(6) ?? 'N/A'}</p>
+        </div>
+        <div>
+          <p className="text-muted-foreground text-sm">Final Accuracy</p>
+          <p className="text-lg font-bold">
+            {(state.final_accuracy != null ? state.final_accuracy * 100 : NaN).toFixed(2) ?? 'N/A'}%
+          </p>
+        </div>
       </div>
 
       {elapsed != null && (
@@ -60,7 +68,7 @@ export default function AlgorithmComponent({
         </div>
       )}
 
-      {/* Plot only if there's data */}
+      {/* Plot */}
       {(state.de_history && state.de_history.length > 0) || (state.ga_history && state.ga_history.length > 0) ? (
         <div className="w-full max-w-3xl">
           <LineChart
@@ -71,8 +79,8 @@ export default function AlgorithmComponent({
         </div>
       ) : null}
 
+      {/* History Lists */}
       <div className="flex flex-col md:flex-row justify-around w-full max-w-3xl gap-4 mt-4">
-        {/* DE History Box (always rendered) */}
         <div className="flex-1">
           <h3 className="text-lg font-medium mb-2 text-center">DE History (Loss)</h3>
           <div className="h-48 overflow-y-auto border rounded p-2 bg-muted/50 text-sm">
@@ -87,7 +95,6 @@ export default function AlgorithmComponent({
             )}
           </div>
         </div>
-        {/* GA History Box (always rendered) */}
         <div className="flex-1">
           <h3 className="text-lg font-medium mb-2 text-center">GA History (Loss)</h3>
           <div className="h-48 overflow-y-auto border rounded p-2 bg-muted/50 text-sm">
@@ -103,6 +110,48 @@ export default function AlgorithmComponent({
           </div>
         </div>
       </div>
+
+      {/* Test samples table */}
+      {state.test_samples && state.test_samples.length > 0 && (
+        <div className="w-full max-w-3xl mt-8">
+          <h3 className="text-lg font-medium mb-2 text-center">Test Samples & Predictions</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border rounded bg-muted/50 text-sm">
+              <thead>
+                <tr>
+                  <th className="border p-2">Sample #</th>
+                  <th className="border p-2">Image</th>
+                  <th className="border p-2">True Label</th>
+                  <th className="border p-2">Prediction</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.test_samples.map((sample, idx) => (
+                  <tr key={idx}>
+                    <td className="border p-2 text-center">{idx + 1}</td>
+                    <td className="border p-2 text-center">
+                      <img
+                        src={`data:image/png;base64,${sample.image_b64}`}
+                        alt={`Sample ${idx + 1}`}
+                        style={{ width: 48, height: 48, imageRendering: "pixelated" }}
+                      />
+                    </td>
+                    <td className="border p-2 text-blue-700 font-semibold">{sample.true_label}</td>
+                    <td className={`border p-2 font-semibold ${
+                      sample.prediction === sample.true_label ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {sample.prediction}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="text-xs text-muted-foreground text-center mt-1">
+              (Showing 5 random test samples)
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

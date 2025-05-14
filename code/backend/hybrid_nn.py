@@ -4,7 +4,7 @@ from tensorflow import keras
 import gc
 
 INPUT_SIZE = 784
-HIDDEN_SIZE = 32
+HIDDEN_SIZE = 128
 OUTPUT_SIZE = 10
 W1_SIZE = INPUT_SIZE * HIDDEN_SIZE
 B1_SIZE = HIDDEN_SIZE
@@ -344,7 +344,7 @@ def run_de_ga_hybrid(NP=50, GEN_DE=100, F=0.8, CR=0.7, ga_generations=50, mutati
 
     print("--- Evaluating Final Model ---")
     final_accuracy = evaluate_model(best_solution_tensor, x_test, y_test_hot)
-
+    test_samples = get_test_samples(best_solution_tensor, x_test, y_test_hot, num_samples=10)
     de_history_float = [float(f) for f in de_history]
     ga_history_float = [float(f) for f in ga_history]
 
@@ -355,7 +355,8 @@ def run_de_ga_hybrid(NP=50, GEN_DE=100, F=0.8, CR=0.7, ga_generations=50, mutati
         "final_loss": float(final_loss),
         "final_accuracy": float(final_accuracy),
         "de_generations_count": len(de_history_float),
-        "ga_generations_count": len(ga_history_float)
+        "ga_generations_count": len(ga_history_float),
+        "test_samples": test_samples
     }
     print("--- Hybrid DE-GA Finished ---")
     del x_train, y_train_hot, x_test, y_test_hot, population_de_var, final_de_population_var, final_ga_population_vars
@@ -411,7 +412,8 @@ def run_ga_de_hybrid(NP=50, GEN_DE=100, F=0.8, CR=0.7, ga_generations=50, mutati
 
     print("--- Evaluating Final Model ---")
     final_accuracy = evaluate_model(best_solution_tensor, x_test, y_test_hot)
-
+        ## for samples
+    test_samples = get_test_samples(best_solution_tensor, x_test, y_test_hot, num_samples=10)
     ga_history_float = [float(f) for f in ga_history]
     de_history_float = [float(f) for f in de_history]
 
@@ -422,9 +424,67 @@ def run_ga_de_hybrid(NP=50, GEN_DE=100, F=0.8, CR=0.7, ga_generations=50, mutati
         "final_loss": float(final_loss),
         "final_accuracy": float(final_accuracy),
         "ga_generations_count": len(ga_history_float),
-        "de_generations_count": len(de_history_float)
+        "de_generations_count": len(de_history_float),
+        "test_samples": test_samples
     }
     print("--- Hybrid GA-DE Finished ---")
     del x_train, y_train_hot, x_test, y_test_hot, population_ga_var_list, final_ga_population_vars_list, population_de_var, final_de_population_var
     gc.collect()
     return results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import base64
+import io
+import matplotlib.pyplot as plt
+
+def get_test_samples(best_solution_vector, x_test, y_test_hot, num_samples=5):
+    indices = np.random.choice(x_test.shape[0], size=min(num_samples, x_test.shape[0]), replace=False)
+    x_samples = tf.gather(x_test, indices)
+    y_true_samples = tf.gather(y_test_hot, indices)
+    probabilities = forward_pass(x_samples, best_solution_vector)
+    predictions = tf.argmax(probabilities, axis=1).numpy().tolist()
+    true_labels = tf.argmax(y_true_samples, axis=1).numpy().tolist()
+    x_samples_np = x_samples.numpy().reshape(-1, 28, 28)
+
+    output = []
+    for i in range(len(indices)):
+        # Plot image to PNG in memory
+        fig = plt.figure(figsize=(1, 1), dpi=28)
+        plt.axis('off')
+        plt.imshow(x_samples_np[i], cmap='gray', vmin=0, vmax=1)
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0)
+        plt.close(fig)
+        img_bytes = buf.getvalue()
+        img_b64 = base64.b64encode(img_bytes).decode('utf-8')
+        output.append({
+            "image_b64": img_b64,
+            "true_label": true_labels[i],
+            "prediction": predictions[i]
+        })
+    return output
