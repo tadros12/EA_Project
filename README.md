@@ -23,7 +23,7 @@ This repository contains experiments on optimizing neural networks through Diffe
 
 ## Running the GUI
 
-1. For the frontend:
+1. For the frontend: # Warning gui has sound
    cd code/front_react
    npm run dev
 
@@ -33,6 +33,7 @@ This repository contains experiments on optimizing neural networks through Diffe
 
 3. Access the GUI in your browser
 
+to run each algorithm alone simply put the other one genration to Zero
 ## Requirements
 
 - TensorFlow

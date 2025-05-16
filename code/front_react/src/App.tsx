@@ -114,7 +114,7 @@ function App() {
           <AlgorithmComponent state={currentState} elapsed={elapsed} />
           <Separator className="my-4" />
           <div className="text-center text-muted-foreground text-sm">
-            created by : tadros  | contributors: tadros
+            created by : tadros  ,kareem , mazen, mohammed marzouk
           </div>
         </div>
       </div>
