@@ -1,0 +1,477 @@
+Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+11490434/11490434 [==============================] - 7s 1us/step
+images train before normalize and processing (60000, 28, 28)
+images train after reshaping (60000, 784)
+(60000, 10)
+(10000, 10)
+Initial loss: 2.3029749393463135
+population shape is: (50, 101770) | Seed: 11
+  Extinction enabled: 10.0% every 100 generations.
+Generation 1/400: Best fitness (loss) = 2.306332
+Generation 21/400: Best fitness (loss) = 2.189424
+Generation 41/400: Best fitness (loss) = 2.132131
+Generation 61/400: Best fitness (loss) = 2.062013
+Generation 81/400: Best fitness (loss) = 1.956145
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 100 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.936381
+Generation 101/400: Best fitness (loss) = 1.919266
+Generation 121/400: Best fitness (loss) = 1.862063
+Generation 141/400: Best fitness (loss) = 1.790300
+Generation 161/400: Best fitness (loss) = 1.732665
+Generation 181/400: Best fitness (loss) = 1.677697
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 200 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.626466
+Generation 201/400: Best fitness (loss) = 1.625136
+Generation 221/400: Best fitness (loss) = 1.565629
+Generation 241/400: Best fitness (loss) = 1.526751
+Generation 261/400: Best fitness (loss) = 1.471685
+Generation 281/400: Best fitness (loss) = 1.417369
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 300 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.390965
+Generation 301/400: Best fitness (loss) = 1.390965
+Generation 321/400: Best fitness (loss) = 1.368041
+Generation 341/400: Best fitness (loss) = 1.343722
+Generation 361/400: Best fitness (loss) = 1.320249
+Generation 381/400: Best fitness (loss) = 1.289184
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 400 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.270707
+DE complete starting GA
+Starting GA with initial fitness (loss): 1.268708
+Generation 1/500: Best fitness (loss) = 1.253261
+Generation 11/500: Best fitness (loss) = 1.239096
+Generation 21/500: Best fitness (loss) = 1.185622
+Generation 31/500: Best fitness (loss) = 1.144036
+Generation 41/500: Best fitness (loss) = 1.115679
+Generation 51/500: Best fitness (loss) = 1.070857
+Generation 61/500: Best fitness (loss) = 1.047163
+Generation 71/500: Best fitness (loss) = 1.001292
+Generation 81/500: Best fitness (loss) = 0.972062
+Generation 91/500: Best fitness (loss) = 0.972062
+Generation 101/500: Best fitness (loss) = 0.930202
+Generation 111/500: Best fitness (loss) = 0.926578
+Generation 121/500: Best fitness (loss) = 0.906332
+Generation 131/500: Best fitness (loss) = 0.881228
+Generation 141/500: Best fitness (loss) = 0.845380
+Generation 151/500: Best fitness (loss) = 0.845380
+Generation 161/500: Best fitness (loss) = 0.826318
+Generation 171/500: Best fitness (loss) = 0.821753
+Generation 181/500: Best fitness (loss) = 0.804806
+Generation 191/500: Best fitness (loss) = 0.800852
+Generation 201/500: Best fitness (loss) = 0.779124
+Generation 211/500: Best fitness (loss) = 0.766650
+Generation 221/500: Best fitness (loss) = 0.752438
+Generation 231/500: Best fitness (loss) = 0.752438
+Generation 241/500: Best fitness (loss) = 0.736889
+Generation 251/500: Best fitness (loss) = 0.720278
+Generation 261/500: Best fitness (loss) = 0.694789
+Generation 271/500: Best fitness (loss) = 0.694789
+Generation 281/500: Best fitness (loss) = 0.694789
+Generation 291/500: Best fitness (loss) = 0.692165
+Generation 301/500: Best fitness (loss) = 0.687351
+Generation 311/500: Best fitness (loss) = 0.681641
+Generation 321/500: Best fitness (loss) = 0.673040
+Generation 331/500: Best fitness (loss) = 0.673040
+Generation 341/500: Best fitness (loss) = 0.659396
+Generation 351/500: Best fitness (loss) = 0.659396
+Generation 361/500: Best fitness (loss) = 0.654044
+Generation 371/500: Best fitness (loss) = 0.649268
+Generation 381/500: Best fitness (loss) = 0.647695
+Generation 391/500: Best fitness (loss) = 0.632533
+Generation 401/500: Best fitness (loss) = 0.632533
+Generation 411/500: Best fitness (loss) = 0.626542
+Generation 421/500: Best fitness (loss) = 0.625194
+Generation 431/500: Best fitness (loss) = 0.613738
+Generation 441/500: Best fitness (loss) = 0.613738
+Generation 451/500: Best fitness (loss) = 0.613738
+Generation 461/500: Best fitness (loss) = 0.613738
+Generation 471/500: Best fitness (loss) = 0.613738
+Generation 481/500: Best fitness (loss) = 0.613192
+Generation 491/500: Best fitness (loss) = 0.606745
+GA best fitness (loss): 0.605626
+DE best fitness: 1.273121
+GA best fitness: 0.621304
+GA had the best overall fitness
+population shape is: (50, 101770) | Seed: 12
+  Extinction enabled: 10.0% every 100 generations.
+Generation 1/400: Best fitness (loss) = 2.308432
+Generation 21/400: Best fitness (loss) = 2.227611
+Generation 41/400: Best fitness (loss) = 2.163520
+Generation 61/400: Best fitness (loss) = 2.108446
+Generation 81/400: Best fitness (loss) = 1.965322
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 100 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.901242
+Generation 101/400: Best fitness (loss) = 1.901242
+Generation 121/400: Best fitness (loss) = 1.811166
+Generation 141/400: Best fitness (loss) = 1.719146
+Generation 161/400: Best fitness (loss) = 1.618918
+Generation 181/400: Best fitness (loss) = 1.588001
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 200 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.555570
+Generation 201/400: Best fitness (loss) = 1.555570
+Generation 221/400: Best fitness (loss) = 1.502792
+Generation 241/400: Best fitness (loss) = 1.478843
+Generation 261/400: Best fitness (loss) = 1.441235
+Generation 281/400: Best fitness (loss) = 1.418032
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 300 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.397738
+Generation 301/400: Best fitness (loss) = 1.396410
+Generation 321/400: Best fitness (loss) = 1.366541
+Generation 341/400: Best fitness (loss) = 1.347379
+Generation 361/400: Best fitness (loss) = 1.330382
+Generation 381/400: Best fitness (loss) = 1.301159
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 400 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.281464
+DE complete starting GA
+Starting GA with initial fitness (loss): 1.279877
+Generation 1/500: Best fitness (loss) = 1.279877
+Generation 11/500: Best fitness (loss) = 1.240885
+Generation 21/500: Best fitness (loss) = 1.217479
+Generation 31/500: Best fitness (loss) = 1.118823
+Generation 41/500: Best fitness (loss) = 1.062565
+Generation 51/500: Best fitness (loss) = 1.062565
+Generation 61/500: Best fitness (loss) = 1.045434
+Generation 71/500: Best fitness (loss) = 1.003888
+Generation 81/500: Best fitness (loss) = 0.965155
+Generation 91/500: Best fitness (loss) = 0.949881
+Generation 101/500: Best fitness (loss) = 0.894085
+Generation 111/500: Best fitness (loss) = 0.894085
+Generation 121/500: Best fitness (loss) = 0.881389
+Generation 131/500: Best fitness (loss) = 0.835032
+Generation 141/500: Best fitness (loss) = 0.807060
+Generation 151/500: Best fitness (loss) = 0.796913
+Generation 161/500: Best fitness (loss) = 0.771507
+Generation 171/500: Best fitness (loss) = 0.758573
+Generation 181/500: Best fitness (loss) = 0.755816
+Generation 191/500: Best fitness (loss) = 0.755816
+Generation 201/500: Best fitness (loss) = 0.734290
+Generation 211/500: Best fitness (loss) = 0.726053
+Generation 221/500: Best fitness (loss) = 0.718638
+Generation 231/500: Best fitness (loss) = 0.700713
+Generation 241/500: Best fitness (loss) = 0.687984
+Generation 251/500: Best fitness (loss) = 0.676656
+Generation 261/500: Best fitness (loss) = 0.675308
+Generation 271/500: Best fitness (loss) = 0.653883
+Generation 281/500: Best fitness (loss) = 0.639882
+Generation 291/500: Best fitness (loss) = 0.625313
+Generation 301/500: Best fitness (loss) = 0.621850
+Generation 311/500: Best fitness (loss) = 0.607314
+Generation 321/500: Best fitness (loss) = 0.600056
+Generation 331/500: Best fitness (loss) = 0.600056
+Generation 341/500: Best fitness (loss) = 0.596621
+Generation 351/500: Best fitness (loss) = 0.596621
+Generation 361/500: Best fitness (loss) = 0.596621
+Generation 371/500: Best fitness (loss) = 0.591582
+Generation 381/500: Best fitness (loss) = 0.591582
+Generation 391/500: Best fitness (loss) = 0.591582
+Generation 401/500: Best fitness (loss) = 0.591582
+Generation 411/500: Best fitness (loss) = 0.590511
+Generation 421/500: Best fitness (loss) = 0.590511
+Generation 431/500: Best fitness (loss) = 0.590511
+Generation 441/500: Best fitness (loss) = 0.589058
+Generation 451/500: Best fitness (loss) = 0.572152
+Generation 461/500: Best fitness (loss) = 0.557817
+Generation 471/500: Best fitness (loss) = 0.557817
+Generation 481/500: Best fitness (loss) = 0.551369
+Generation 491/500: Best fitness (loss) = 0.542731
+GA best fitness (loss): 0.542731
+DE best fitness: 1.281507
+GA best fitness: 0.533921
+GA had the best overall fitness
+population shape is: (50, 101770) | Seed: 13
+  Extinction enabled: 10.0% every 100 generations.
+Generation 1/400: Best fitness (loss) = 2.304818
+Generation 21/400: Best fitness (loss) = 2.202430
+Generation 41/400: Best fitness (loss) = 2.139649
+Generation 61/400: Best fitness (loss) = 1.969766
+Generation 81/400: Best fitness (loss) = 1.859915
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 100 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.801653
+Generation 101/400: Best fitness (loss) = 1.783642
+Generation 121/400: Best fitness (loss) = 1.744597
+Generation 141/400: Best fitness (loss) = 1.673574
+Generation 161/400: Best fitness (loss) = 1.619693
+Generation 181/400: Best fitness (loss) = 1.551139
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 200 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.492193
+Generation 201/400: Best fitness (loss) = 1.492193
+Generation 221/400: Best fitness (loss) = 1.441759
+Generation 241/400: Best fitness (loss) = 1.408121
+Generation 261/400: Best fitness (loss) = 1.366291
+Generation 281/400: Best fitness (loss) = 1.332026
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 300 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.305446
+Generation 301/400: Best fitness (loss) = 1.303329
+Generation 321/400: Best fitness (loss) = 1.263673
+Generation 341/400: Best fitness (loss) = 1.244965
+Generation 361/400: Best fitness (loss) = 1.235639
+Generation 381/400: Best fitness (loss) = 1.212057
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 400 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.184865
+DE complete starting GA
+Starting GA with initial fitness (loss): 1.181058
+Generation 1/500: Best fitness (loss) = 1.181058
+Generation 11/500: Best fitness (loss) = 1.147838
+Generation 21/500: Best fitness (loss) = 1.112986
+Generation 31/500: Best fitness (loss) = 1.050451
+Generation 41/500: Best fitness (loss) = 1.025348
+Generation 51/500: Best fitness (loss) = 1.000143
+Generation 61/500: Best fitness (loss) = 0.962760
+Generation 71/500: Best fitness (loss) = 0.894032
+Generation 81/500: Best fitness (loss) = 0.894032
+Generation 91/500: Best fitness (loss) = 0.875185
+Generation 101/500: Best fitness (loss) = 0.861859
+Generation 111/500: Best fitness (loss) = 0.850183
+Generation 121/500: Best fitness (loss) = 0.816614
+Generation 131/500: Best fitness (loss) = 0.816614
+Generation 141/500: Best fitness (loss) = 0.791307
+Generation 151/500: Best fitness (loss) = 0.769597
+Generation 161/500: Best fitness (loss) = 0.767925
+Generation 171/500: Best fitness (loss) = 0.745021
+Generation 181/500: Best fitness (loss) = 0.733060
+Generation 191/500: Best fitness (loss) = 0.727104
+Generation 201/500: Best fitness (loss) = 0.719358
+Generation 211/500: Best fitness (loss) = 0.719358
+Generation 221/500: Best fitness (loss) = 0.713826
+Generation 231/500: Best fitness (loss) = 0.713826
+Generation 241/500: Best fitness (loss) = 0.696117
+Generation 251/500: Best fitness (loss) = 0.694868
+Generation 261/500: Best fitness (loss) = 0.676193
+Generation 271/500: Best fitness (loss) = 0.653743
+Generation 281/500: Best fitness (loss) = 0.653743
+Generation 291/500: Best fitness (loss) = 0.640181
+Generation 301/500: Best fitness (loss) = 0.637691
+Generation 311/500: Best fitness (loss) = 0.626881
+Generation 321/500: Best fitness (loss) = 0.626881
+Generation 331/500: Best fitness (loss) = 0.626881
+Generation 341/500: Best fitness (loss) = 0.615046
+Generation 351/500: Best fitness (loss) = 0.607710
+Generation 361/500: Best fitness (loss) = 0.607710
+Generation 371/500: Best fitness (loss) = 0.606980
+Generation 381/500: Best fitness (loss) = 0.606980
+Generation 391/500: Best fitness (loss) = 0.603704
+Generation 401/500: Best fitness (loss) = 0.601882
+Generation 411/500: Best fitness (loss) = 0.601882
+Generation 421/500: Best fitness (loss) = 0.601882
+Generation 431/500: Best fitness (loss) = 0.591569
+Generation 441/500: Best fitness (loss) = 0.591569
+Generation 451/500: Best fitness (loss) = 0.583787
+Generation 461/500: Best fitness (loss) = 0.576769
+Generation 471/500: Best fitness (loss) = 0.570194
+Generation 481/500: Best fitness (loss) = 0.559679
+Generation 491/500: Best fitness (loss) = 0.559679
+GA best fitness (loss): 0.557375
+DE best fitness: 1.183494
+GA best fitness: 0.568775
+GA had the best overall fitness
+population shape is: (50, 101770) | Seed: 14
+  Extinction enabled: 10.0% every 100 generations.
+Generation 1/400: Best fitness (loss) = 2.316968
+Generation 21/400: Best fitness (loss) = 2.224532
+Generation 41/400: Best fitness (loss) = 2.152368
+Generation 61/400: Best fitness (loss) = 2.055036
+Generation 81/400: Best fitness (loss) = 1.984216
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 100 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.921949
+Generation 101/400: Best fitness (loss) = 1.921949
+Generation 121/400: Best fitness (loss) = 1.835417
+Generation 141/400: Best fitness (loss) = 1.755383
+Generation 161/400: Best fitness (loss) = 1.661162
+Generation 181/400: Best fitness (loss) = 1.607956
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 200 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.560752
+Generation 201/400: Best fitness (loss) = 1.560752
+Generation 221/400: Best fitness (loss) = 1.492224
+Generation 241/400: Best fitness (loss) = 1.456233
+Generation 261/400: Best fitness (loss) = 1.410161
+Generation 281/400: Best fitness (loss) = 1.378457
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 300 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.364395
+Generation 301/400: Best fitness (loss) = 1.348635
+Generation 321/400: Best fitness (loss) = 1.323965
+Generation 341/400: Best fitness (loss) = 1.297345
+Generation 361/400: Best fitness (loss) = 1.267254
+Generation 381/400: Best fitness (loss) = 1.253910
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 400 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.232201
+DE complete starting GA
+Starting GA with initial fitness (loss): 1.226923
+Generation 1/500: Best fitness (loss) = 1.226923
+Generation 11/500: Best fitness (loss) = 1.201128
+Generation 21/500: Best fitness (loss) = 1.157041
+Generation 31/500: Best fitness (loss) = 1.089116
+Generation 41/500: Best fitness (loss) = 1.064634
+Generation 51/500: Best fitness (loss) = 1.058607
+Generation 61/500: Best fitness (loss) = 1.021488
+Generation 71/500: Best fitness (loss) = 0.981878
+Generation 81/500: Best fitness (loss) = 0.942450
+Generation 91/500: Best fitness (loss) = 0.918931
+Generation 101/500: Best fitness (loss) = 0.897196
+Generation 111/500: Best fitness (loss) = 0.859075
+Generation 121/500: Best fitness (loss) = 0.815753
+Generation 131/500: Best fitness (loss) = 0.802193
+Generation 141/500: Best fitness (loss) = 0.779810
+Generation 151/500: Best fitness (loss) = 0.763976
+Generation 161/500: Best fitness (loss) = 0.736345
+Generation 171/500: Best fitness (loss) = 0.735484
+Generation 181/500: Best fitness (loss) = 0.721244
+Generation 191/500: Best fitness (loss) = 0.714952
+Generation 201/500: Best fitness (loss) = 0.714952
+Generation 211/500: Best fitness (loss) = 0.701324
+Generation 221/500: Best fitness (loss) = 0.690368
+Generation 231/500: Best fitness (loss) = 0.690368
+Generation 241/500: Best fitness (loss) = 0.676903
+Generation 251/500: Best fitness (loss) = 0.676896
+Generation 261/500: Best fitness (loss) = 0.662799
+Generation 271/500: Best fitness (loss) = 0.653886
+Generation 281/500: Best fitness (loss) = 0.653886
+Generation 291/500: Best fitness (loss) = 0.649816
+Generation 301/500: Best fitness (loss) = 0.649816
+Generation 311/500: Best fitness (loss) = 0.648067
+Generation 321/500: Best fitness (loss) = 0.648067
+Generation 331/500: Best fitness (loss) = 0.645810
+Generation 341/500: Best fitness (loss) = 0.639815
+Generation 351/500: Best fitness (loss) = 0.630097
+Generation 361/500: Best fitness (loss) = 0.622428
+Generation 371/500: Best fitness (loss) = 0.612536
+Generation 381/500: Best fitness (loss) = 0.605428
+Generation 391/500: Best fitness (loss) = 0.602834
+Generation 401/500: Best fitness (loss) = 0.593126
+Generation 411/500: Best fitness (loss) = 0.588212
+Generation 421/500: Best fitness (loss) = 0.572334
+Generation 431/500: Best fitness (loss) = 0.569962
+Generation 441/500: Best fitness (loss) = 0.562142
+Generation 451/500: Best fitness (loss) = 0.547951
+Generation 461/500: Best fitness (loss) = 0.547951
+Generation 471/500: Best fitness (loss) = 0.547951
+Generation 481/500: Best fitness (loss) = 0.547951
+Generation 491/500: Best fitness (loss) = 0.529382
+GA best fitness (loss): 0.528433
+DE best fitness: 1.230626
+GA best fitness: 0.534811
+GA had the best overall fitness
+population shape is: (50, 101770) | Seed: 15
+  Extinction enabled: 10.0% every 100 generations.
+Generation 1/400: Best fitness (loss) = 2.314029
+Generation 21/400: Best fitness (loss) = 2.246403
+Generation 41/400: Best fitness (loss) = 2.148537
+Generation 61/400: Best fitness (loss) = 2.055325
+Generation 81/400: Best fitness (loss) = 1.970721
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 100 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.884238
+Generation 101/400: Best fitness (loss) = 1.884238
+Generation 121/400: Best fitness (loss) = 1.852317
+Generation 141/400: Best fitness (loss) = 1.750640
+Generation 161/400: Best fitness (loss) = 1.699661
+Generation 181/400: Best fitness (loss) = 1.654521
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 200 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.574073
+Generation 201/400: Best fitness (loss) = 1.574073
+Generation 221/400: Best fitness (loss) = 1.545192
+Generation 241/400: Best fitness (loss) = 1.505327
+Generation 261/400: Best fitness (loss) = 1.470219
+Generation 281/400: Best fitness (loss) = 1.432549
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 300 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.404895
+Generation 301/400: Best fitness (loss) = 1.396001
+Generation 321/400: Best fitness (loss) = 1.367317
+Generation 341/400: Best fitness (loss) = 1.336570
+Generation 361/400: Best fitness (loss) = 1.315972
+Generation 381/400: Best fitness (loss) = 1.286257
+
+--- ⚠️⚠️Triggering Extinction Event at Generation 400 🦖🦖⚠️⚠️---
+Keeping 45 best, replacing 5 individuals
+  New best fitness after extinction: 1.257869
+DE complete starting GA
+Starting GA with initial fitness (loss): 1.252729
+Generation 1/500: Best fitness (loss) = 1.251800
+Generation 11/500: Best fitness (loss) = 1.225455
+Generation 21/500: Best fitness (loss) = 1.194745
+Generation 31/500: Best fitness (loss) = 1.143559
+Generation 41/500: Best fitness (loss) = 1.056826
+Generation 51/500: Best fitness (loss) = 1.028769
+Generation 61/500: Best fitness (loss) = 0.989209
+Generation 71/500: Best fitness (loss) = 0.960406
+Generation 81/500: Best fitness (loss) = 0.929883
+Generation 91/500: Best fitness (loss) = 0.881915
+Generation 101/500: Best fitness (loss) = 0.881915
+Generation 111/500: Best fitness (loss) = 0.836394
+Generation 121/500: Best fitness (loss) = 0.818846
+Generation 131/500: Best fitness (loss) = 0.777351
+Generation 141/500: Best fitness (loss) = 0.765469
+Generation 151/500: Best fitness (loss) = 0.736868
+Generation 161/500: Best fitness (loss) = 0.731179
+Generation 171/500: Best fitness (loss) = 0.719829
+Generation 181/500: Best fitness (loss) = 0.719829
+Generation 191/500: Best fitness (loss) = 0.710686
+Generation 201/500: Best fitness (loss) = 0.710686
+Generation 211/500: Best fitness (loss) = 0.690535
+Generation 221/500: Best fitness (loss) = 0.677560
+Generation 231/500: Best fitness (loss) = 0.663159
+Generation 241/500: Best fitness (loss) = 0.653532
+Generation 251/500: Best fitness (loss) = 0.653532
+Generation 261/500: Best fitness (loss) = 0.649539
+Generation 271/500: Best fitness (loss) = 0.641300
+Generation 281/500: Best fitness (loss) = 0.632455
+Generation 291/500: Best fitness (loss) = 0.612043
+Generation 301/500: Best fitness (loss) = 0.612043
+Generation 311/500: Best fitness (loss) = 0.612043
+Generation 321/500: Best fitness (loss) = 0.612043
+Generation 331/500: Best fitness (loss) = 0.609582
+Generation 341/500: Best fitness (loss) = 0.609582
+Generation 351/500: Best fitness (loss) = 0.609582
+Generation 361/500: Best fitness (loss) = 0.604540
+Generation 371/500: Best fitness (loss) = 0.604540
+Generation 381/500: Best fitness (loss) = 0.599397
+Generation 391/500: Best fitness (loss) = 0.595587
+Generation 401/500: Best fitness (loss) = 0.594996
+Generation 411/500: Best fitness (loss) = 0.594996
+Generation 421/500: Best fitness (loss) = 0.584274
+Generation 431/500: Best fitness (loss) = 0.577172
+Generation 441/500: Best fitness (loss) = 0.570055
+Generation 451/500: Best fitness (loss) = 0.570055
+Generation 461/500: Best fitness (loss) = 0.570055
+Generation 471/500: Best fitness (loss) = 0.564665
+Generation 481/500: Best fitness (loss) = 0.564499
+Generation 491/500: Best fitness (loss) = 0.561688
+GA best fitness (loss): 0.553372
+DE best fitness: 1.257957
+GA best fitness: 0.558948
+GA had the best overall fitness
