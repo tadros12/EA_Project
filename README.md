@@ -1,6 +1,3 @@
-## notes for TA
-    to save your time just look at the project_tf_V3 notebook its the main one backend has the same logic but slightly difference in memory mangment and returns for gui 
-
 # Neural Network Optimization with Evolutionary Algorithms
 
 This repository contains experiments on optimizing neural networks through Differential Evolution (DE) and other evolutionary methods.
